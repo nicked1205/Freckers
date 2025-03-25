@@ -3,7 +3,7 @@
 
 from .core import CellState, Coord, Direction, MoveAction
 from .utils import render_board, find_red
-from .tree import Treenode
+from .tree import TreeNode, expand_tree
 
 
 def search(
@@ -33,6 +33,8 @@ def search(
     # Do some impressive AI stuff here to find the solution...
     visited = []
     red_coord = find_red(board)
+    expand_tree(board, visited, red_coord, TreeNode(0, CellState.RED, red_coord))
+    
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your
