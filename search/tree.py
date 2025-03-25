@@ -7,29 +7,30 @@ class TreeNode():
         self.heuristic = heuristic
         self.state = state
         self.coord = coord
+        self.child_dict = {
+                        "left": None,
+                        "right": None,
+                        "down": None,
+                        "downLeft": None,
+                        "downRight": None,
+                        }
 
     def add_child(self, dir_vector, node):
         match dir_vector:
-            case (-1, 0):
-                self.up = node
-            case (-1, -1):
-                self.upLeft = node
-            case (-1, 1):
-                self.upRight = node
             case (0, -1):
-                self.left = node
+                self.child_dict["left"] = node
             case (0, 1):
-                self.right = node
+                self.child_dict["right"]= node
             case (1, 0):
-                self.down = node
+                self.child_dict["down"] = node
             case (1, -1):
-                self.downLeft = node
+                self.child_dict["downLeft"] = node
             case (1, 1):
-                self.downRight = node
+                self.child_dict["downRight"] = node
 
 def expand_tree(board: dict[Coord, CellState], visited, coord: Coord, root: TreeNode):
     visited.append(coord)
-    for m, n in [(1, 0), (0, 1), (1, -1), (1, 1), (-1, 1), (-1, -1), (-1, 0), (0, -1)]:
+    for m, n in [(1, 0), (0, 1), (1, -1), (1, 1), (0, -1)]:
         try:
             new_coord = Coord(coord.r + m, coord.c + n)
         except:
@@ -55,7 +56,7 @@ def expand_tree(board: dict[Coord, CellState], visited, coord: Coord, root: Tree
 
 def generate_tree(board: dict[Coord, CellState], visited, coord: Coord, root: TreeNode):
     visited.append(coord)
-    for m, n in [(1, 0), (0, 1), (1, -1), (1, 1), (-1, 1), (-1, -1), (-1, 0), (0, -1)]:
+    for m, n in [(1, 0), (0, 1), (1, -1), (1, 1), (0, -1)]:
         try:
             new_coord = Coord(coord.r + m, coord.c + n)
         except:
@@ -75,4 +76,5 @@ def generate_tree(board: dict[Coord, CellState], visited, coord: Coord, root: Tr
 
         elif new_coord not in visited and cell_state == CellState.LILY_PAD:
             new_node = TreeNode(0, cell_state, new_coord)
-            root.add_child((m, n), new_node)          
+            root.add_child((m, n), new_node)
+    return visited          
