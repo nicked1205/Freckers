@@ -2,7 +2,8 @@
 # Project Part A: Single Player Freckers
 
 from .core import CellState, Coord, Direction, MoveAction
-from .utils import render_board
+from .utils import render_board, find_red
+from .tree import Treenode
 
 
 def search(
@@ -30,9 +31,8 @@ def search(
     print(render_board(board, ansi=True))
 
     # Do some impressive AI stuff here to find the solution...
-    # ...
-    # ... (your solution goes here!)
-    # ...
+    visited = []
+    red_coord = find_red(board)
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your

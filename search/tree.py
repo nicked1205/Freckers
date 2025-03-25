@@ -1,6 +1,8 @@
-@dataclass(order=True, frozen=True)
+from .core import CellState, Coord
+
+@dataclass(order=True)
 class Treenode():
-    def __init__(self, heuristic, state, coord):
+    def __init__(self, heuristic: int, state: CellState, coord: Coord):
         self.heuristic = heuristic
         self.state = state
         self.coord = coord

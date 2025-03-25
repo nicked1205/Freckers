@@ -61,3 +61,9 @@ def render_board(
             output += " "
         output += "\n"
     return output
+
+def find_red (board: dict[Coord, CellState]):
+    for r in range(BOARD_N):
+        for c in range(BOARD_N):
+            if board.get(Coord(r, c), None) == CellState.RED:
+                return [r, c]
