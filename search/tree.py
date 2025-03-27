@@ -14,6 +14,7 @@ class TreeNode():
                         "downLeft": None,
                         "downRight": None,
                         }
+        self.jumping = jumping
 
     def add_child(self, dir_vector, node):
         match dir_vector:
