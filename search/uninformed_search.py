@@ -22,22 +22,22 @@ def dfs_search(root: TreeNode, goal_row: int, visited: list, best_path: list, pa
             print(f'{direction} child')
             added = False  # flag to check if we've appended an action
             if child.jumping:
-                path_copy = path.copy()
                 print(f"Node: ({child.coord.r}, {child.coord.c}) JUMP")
                 if jumping:
-                    path_copy[-1]._directions.append(direction)
+                    path[-1]._directions.append(direction)
+                    # Recurse on the child.
+                    solution = dfs_search(child, goal_row, visited, best_path, path, True)
+                    path[-1].directions.pop()
                 else:
                     action = MoveAction(root.coord, [direction])
-                    path_copy.append(action)
+                    path.append(action)
                     added = True
-
-                # Recurse on the child.
-                solution = dfs_search(child, goal_row, visited, best_path, path_copy, True)
+                    # Recurse on the child.
+                    solution = dfs_search(child, goal_row, visited, best_path, path, True)
             else:
                 action = MoveAction(root.coord, [direction])
                 path.append(action)
                 added = True
-
                 # Recurse on the child.
                 solution = dfs_search(child, goal_row, visited, best_path, path, False)
 
