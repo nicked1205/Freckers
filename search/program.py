@@ -3,7 +3,8 @@
 
 from .core import CellState, Coord, Direction, MoveAction
 from .utils import render_board, find_red
-from .tree import TreeNode, expand_tree, generate_tree
+from .tree import TreeNode, expand_tree
+from .heuristic import calculate_heuristics
 
 
 def search(
@@ -34,9 +35,11 @@ def search(
     visited = []
     red_coord = find_red(board)
     red_node = TreeNode(0, CellState.RED, red_coord)
-    visited = generate_tree(board, visited, red_coord, red_node)
-    print(red_node.child_dict)
-    
+    expand_tree(board, visited, red_coord, red_node)
+
+    heuristic_visited = []
+    calculate_heuristics(red_node, heuristic_visited)
+
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your
