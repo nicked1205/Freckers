@@ -7,7 +7,7 @@ def calculate_heuristics(node: TreeNode, visited: list[TreeNode]):
         child: TreeNode
         for child in node.child_dict.values():
             if child:
-                print(child)
+                # print(child)
                 distances = []
                 child_dict = child.child_dict
                 if child_dict[Direction.Left]:
@@ -31,9 +31,9 @@ def calculate_heuristics(node: TreeNode, visited: list[TreeNode]):
                     if child_dict[Direction.DownRight].jumping:
                         distance = 2
                     distances.append(test_jump(child_dict[Direction.DownRight], distance, []))
-                print('Conclusion:')
-                print(distances)
-                print('\n')
+                # print('Conclusion:')
+                # print(distances)
+                # print('\n')
                 child.set_heuristic(max(distances, default=0))
                 calculate_heuristics(child, visited)
 
@@ -62,7 +62,7 @@ def test_jump(node: TreeNode, distance: int, visited):
                     distances.append(test_jump(child_dict[Direction.DownRight], distance + 2, visited))
                 else:
                     distances.append(test_jump(child_dict[Direction.DownRight], distance + 1, visited))
-        print('----------------')
-        print(node)
-        print(distances)
+        # print('----------------')
+        # print(node)
+        # print(distances)
     return max(distances, default=0)
