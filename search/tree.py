@@ -40,14 +40,12 @@ def expand_tree(board: dict[Coord, CellState], visited: list[TreeNode], coord: C
             
             if cell_state_jump == CellState.LILY_PAD:
                 new_node = TreeNode(cell_state, new_jump_coord, True)
-                print(new_node)
                 root.add_child(dir, new_node)
                 if new_jump_coord not in visited:                    
                     expand_tree(board, visited, new_jump_coord, new_node)
 
         elif cell_state == CellState.LILY_PAD:
             new_node = TreeNode(cell_state, new_coord, False)
-            print(new_node)
             root.add_child(dir, new_node)
             if new_coord not in visited:                    
                 expand_tree(board, visited, new_coord, new_node)
