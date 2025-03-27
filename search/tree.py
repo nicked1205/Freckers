@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 @dataclass(order=True)
 class TreeNode():
-    def __init__(self, heuristic: int, state: CellState, coord: Coord):
+    def __init__(self, heuristic: int, state: CellState, coord: Coord, jumping: bool):
         self.heuristic = heuristic
         self.state = state
         self.coord = coord
@@ -35,12 +35,12 @@ def expand_tree(board: dict[Coord, CellState], visited, coord: Coord, root: Tree
             cell_state_jump = board.get(new_jump_coord)
             
             if new_jump_coord not in visited and cell_state_jump == CellState.LILY_PAD:
-                new_node = TreeNode(0, cell_state, new_jump_coord)
+                new_node = TreeNode(0, cell_state, new_jump_coord, True)
                 root.add_child(dir, new_node)
                 expand_tree(board, visited, new_jump_coord, new_node)
 
         elif new_coord not in visited and cell_state == CellState.LILY_PAD:
-            new_node = TreeNode(0, cell_state, new_coord)
+            new_node = TreeNode(0, cell_state, new_coord, False)
             root.add_child(dir, new_node)
             expand_tree(board, visited, new_coord, new_node)
 
@@ -61,10 +61,10 @@ def generate_tree(board: dict[Coord, CellState], visited, coord: Coord, root: Tr
             cell_state_jump = board.get(new_jump_coord)
             
             if new_jump_coord not in visited and cell_state_jump == CellState.LILY_PAD:
-                new_node = TreeNode(0, cell_state, new_jump_coord)
+                new_node = TreeNode(0, cell_state, new_jump_coord, True)
                 root.add_child(dir, new_node)
 
         elif new_coord not in visited and cell_state == CellState.LILY_PAD:
-            new_node = TreeNode(0, cell_state, new_coord)
+            new_node = TreeNode(0, cell_state, new_coord, False)
             root.add_child(dir, new_node)
     return visited          
