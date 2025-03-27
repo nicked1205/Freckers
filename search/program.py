@@ -40,9 +40,9 @@ def search(
     print(red_node.child_dict)
 
     heuristic_visited = []
-    calculate_heuristics(red_node, heuristic_visited)
+    # calculate_heuristics(red_node, heuristic_visited)
 
-    # return dfs_search(red_node, 7, [], None, [], False)
+    return dfs_search(red_node, 7, [], None, [], False)
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your
