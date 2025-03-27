@@ -35,14 +35,14 @@ def search(
     # Do some impressive AI stuff here to find the solution...
     visited = []
     red_coord = find_red(board)
-    red_node = TreeNode(0, CellState.RED, red_coord, False)
-    print(red_node.child_dict)    
+    red_node = TreeNode(CellState.RED, red_coord, False)
+    expand_tree(board, visited, red_coord, red_node)
+    print(red_node.child_dict)
+
     heuristic_visited = []
     calculate_heuristics(red_node, heuristic_visited)
-    
-    expand_tree(board, visited, red_coord, red_node)
 
-    return dfs_search(red_node, 7, [], None, [], False)
+    # return dfs_search(red_node, 7, [], None, [], False)
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your
