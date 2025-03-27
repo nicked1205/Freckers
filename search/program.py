@@ -4,6 +4,7 @@
 from .core import CellState, Coord, Direction, MoveAction
 from .utils import render_board, find_red
 from .tree import TreeNode, expand_tree, generate_tree
+from .uninformed_search import dfs_search
 
 
 def search(
@@ -33,10 +34,13 @@ def search(
     # Do some impressive AI stuff here to find the solution...
     visited = []
     red_coord = find_red(board)
-    red_node = TreeNode(0, CellState.RED, red_coord)
-    visited = generate_tree(board, visited, red_coord, red_node)
+    red_node = TreeNode(0, CellState.RED, red_coord, False)
+    # visited = generate_tree(board, visited, red_coord, red_node)
     print(red_node.child_dict)
     
+    visited = expand_tree(board, visited, red_coord, red_node)
+
+    return dfs_search(red_node, 7, [], None, [], False)
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your

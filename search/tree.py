@@ -14,6 +14,7 @@ class TreeNode():
                         Direction.DownRight: None,
                         Direction.Right: None,
                         }
+        self.jumping = jumping
 
     def add_child(self, dir_vector, node):
         self.child_dict[dir_vector] = node
