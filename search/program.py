@@ -45,7 +45,7 @@ def search(
     # return dfs_search(red_node, 7, [], None, [], False)
 
     priority_queue = []
-    heapq.heappush(priority_queue, (-red_node.heuristic, red_node))
+    heapq.heappush(priority_queue, (red_node.get_heuristic(), red_node))
 
     return A_star(7, [], [], priority_queue, False)
 
