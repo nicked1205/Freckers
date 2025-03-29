@@ -2,8 +2,8 @@ from .tree import TreeNode
 from .core import Direction
 
 def calculate_heuristics(node: TreeNode, visited: list[TreeNode]):
-    if node.coord not in visited:
-        visited.append(node.coord)
+    if node not in visited:
+        visited.append(node)
         child: TreeNode
         for child in node.child_dict.values():
             if child:
@@ -39,8 +39,8 @@ def calculate_heuristics(node: TreeNode, visited: list[TreeNode]):
 
 def test_jump(node: TreeNode, distance: int, visited):
     distances = [distance]
-    if node.coord not in visited:
-        visited.append(node.coord)
+    if node not in visited:
+        visited.append(node)
         if node.jumping:
             child_dict = node.child_dict
             if child_dict[Direction.Left]:
