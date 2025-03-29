@@ -22,6 +22,7 @@ class TreeNode():
                         Direction.Right: None,
                         }
         self.isGoal = False
+        self.heuristic = 0
 
     def add_child(self, dir_vector, node):
         self.child_dict[dir_vector] = node
@@ -72,7 +73,6 @@ def expand_tree(board: dict[Coord, CellState], visited: list[TreeNode], coord: C
             if cell_state_jump == CellState.LILY_PAD:
                 new_node = TreeNode(cell_state, new_jump_coord, True)
                 if new_node not in visited:
-                    print(new_node)
                     if (new_jump_coord.r == BOARD_N - 1):
                         new_node.setGoal()
                     root.add_child(dir, new_node)                 
@@ -86,7 +86,6 @@ def expand_tree(board: dict[Coord, CellState], visited: list[TreeNode], coord: C
         elif cell_state == CellState.LILY_PAD:
             new_node = TreeNode(cell_state, new_coord, False)
             if new_node not in visited:   
-                print(new_node)
                 if (new_coord.r == BOARD_N - 1):
                     new_node.setGoal()
                 root.add_child(dir, new_node)
