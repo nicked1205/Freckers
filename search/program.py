@@ -6,6 +6,8 @@ from .utils import render_board, find_red
 from .tree import TreeNode, expand_tree
 from .heuristic import calculate_heuristics
 from .uninformed_search import dfs_search
+from .informed_search import A_star
+import heapq
 
 
 def search(
@@ -40,9 +42,14 @@ def search(
     print(red_node.child_dict)
 
     heuristic_visited = []
-    # calculate_heuristics(red_node, heuristic_visited)
+    calculate_heuristics(red_node, heuristic_visited)
 
-    return dfs_search(red_node, 7, [], None, [], False)
+    # return dfs_search(red_node, 7, [], None, [], False)
+
+    priority_queue = []
+    heapq.heappush(priority_queue, (-red_node.heuristic, red_node))
+
+    return A_star(7, [], [], priority_queue, False)
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your
