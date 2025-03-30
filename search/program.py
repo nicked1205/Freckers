@@ -36,7 +36,7 @@ def search(
 
     # Do some impressive AI stuff here to find the solution...
     red_coord = find_red(board)
-    red_node = TreeNode(CellState.RED, red_coord, False)
+    red_node = TreeNode(CellState.RED, red_coord)
     visited = expand_tree(board, [], red_coord, red_node)
     goals = get_goal_nodes(visited)
 
@@ -44,10 +44,10 @@ def search(
 
     # return dfs_search(red_node, 7, [], None, [], False)
 
-    priority_queue = []
-    heapq.heappush(priority_queue, (red_node.get_heuristic(), red_node))
+    # priority_queue = []
+    # heapq.heappush(priority_queue, (red_node.get_heuristic(), red_node))
 
-    return A_star(7, [], [], priority_queue, False)
+    # return A_star(7, [], [], priority_queue, False)
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your
