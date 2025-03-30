@@ -2,7 +2,7 @@
 # Project Part A: Single Player Freckers
 
 from .core import Coord, CellState, BOARD_N
-
+from .tree import TreeNode
 
 def apply_ansi(
     text: str, 
