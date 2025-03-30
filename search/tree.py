@@ -50,7 +50,7 @@ class TreeNode():
         return False
     
     def __str__(self):
-        return f"Coord: {self.coord} Goal: {self.isGoal}"
+        return f"Coord: {self.coord} Goal: {self.isGoal} Heuristic: {self.heuristic}"
 
     def __eq__(self, another_node):
         if not isinstance(another_node, TreeNode):
@@ -80,7 +80,6 @@ def expand_tree(board: dict[Coord, CellState], visited: list[TreeNode], coord: C
                 if new_node not in visited:
                     if (new_jump_coord.r == BOARD_N - 1):
                         new_node.setGoal()
-                    print(new_node)
                     root.add_child(dir, new_node)                 
                     visited = expand_tree(board, visited, new_jump_coord, new_node)
                 else:
@@ -94,7 +93,6 @@ def expand_tree(board: dict[Coord, CellState], visited: list[TreeNode], coord: C
             if new_node not in visited: 
                 if (new_coord.r == BOARD_N - 1):
                     new_node.setGoal()
-                print(new_node)
                 root.add_child(dir, new_node)
                 new_node.add_parent(dir.__neg__(), root)                 
                 visited = expand_tree(board, visited, new_coord, new_node)
