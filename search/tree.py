@@ -3,10 +3,10 @@ from dataclasses import dataclass
 
 @dataclass(order=True)
 class TreeNode():
-    def __init__(self, state: CellState, coord: Coord, jumping: bool):
+    def __init__(self, state: CellState, coord: Coord):
         self.state = state
         self.coord = coord
-        self.jumping = jumping
+        self.child_dict: dict[Direction, TreeNode]
         self.child_dict = {
                         Direction.Left: None,
                         Direction.DownLeft: None,
@@ -39,18 +39,23 @@ class TreeNode():
     def setGoal(self):
         self.isGoal = True
 
+    def isJumping(self, parent_node):
+        if abs(self.coord.r - parent_node.coord.r) == 2 or abs(self.coord.c - parent_node.coord.c) == 2:
+            return True
+        return False
+
     def coord_search(self, coord):
         if self.coord == coord:
             return True
         return False
     
     def __str__(self):
-        return f"Coord: {self.coord} Jumping: {self.jumping}"
+        return f"Coord: {self.coord} Goal: {self.isGoal}"
 
     def __eq__(self, another_node):
         if not isinstance(another_node, TreeNode):
             raise TypeError('Can only compare two Nodes')   
-        if self.coord != another_node.coord or self.jumping != another_node.jumping:
+        if self.coord != another_node.coord:
             return False
         return True
 
@@ -71,10 +76,11 @@ def expand_tree(board: dict[Coord, CellState], visited: list[TreeNode], coord: C
             cell_state_jump = board.get(new_jump_coord)
             
             if cell_state_jump == CellState.LILY_PAD:
-                new_node = TreeNode(cell_state, new_jump_coord, True)
+                new_node = TreeNode(cell_state, new_jump_coord)
                 if new_node not in visited:
                     if (new_jump_coord.r == BOARD_N - 1):
                         new_node.setGoal()
+                    print(new_node)
                     root.add_child(dir, new_node)                 
                     visited = expand_tree(board, visited, new_jump_coord, new_node)
                 else:
@@ -84,10 +90,11 @@ def expand_tree(board: dict[Coord, CellState], visited: list[TreeNode], coord: C
                     
 
         elif cell_state == CellState.LILY_PAD:
-            new_node = TreeNode(cell_state, new_coord, False)
-            if new_node not in visited:   
+            new_node = TreeNode(cell_state, new_coord)
+            if new_node not in visited: 
                 if (new_coord.r == BOARD_N - 1):
                     new_node.setGoal()
+                print(new_node)
                 root.add_child(dir, new_node)
                 new_node.add_parent(dir.__neg__(), root)                 
                 visited = expand_tree(board, visited, new_coord, new_node)
