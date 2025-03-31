@@ -53,6 +53,8 @@ class TreeNode():
         return f"Coord: {self.coord} Goal: {self.isGoal} Heuristic: {self.heuristic}"
 
     def __eq__(self, another_node):
+        if not another_node:
+            return False
         if not isinstance(another_node, TreeNode):
             raise TypeError('Can only compare two Nodes')   
         if self.coord != another_node.coord:
@@ -80,12 +82,14 @@ def expand_tree(board: dict[Coord, CellState], visited: list[TreeNode], coord: C
                 if new_node not in visited:
                     if (new_jump_coord.r == BOARD_N - 1):
                         new_node.setGoal()
-                    root.add_child(dir, new_node)                 
+                    root.add_child(dir, new_node)
+                    new_node.add_parent(dir.__neg__(), root)                 
                     visited = expand_tree(board, visited, new_jump_coord, new_node)
                 else:
                     for node in visited:
                         if node.coord_search(new_jump_coord):
                             root.add_child(dir, node)
+                            new_node.add_parent(dir.__neg__(), root)
                     
 
         elif cell_state == CellState.LILY_PAD:
