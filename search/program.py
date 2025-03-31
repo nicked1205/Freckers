@@ -48,11 +48,11 @@ def search(
     queue = deque()
     queue.append((red_node, [], False))
 
-    return bfs_search(7, [], [], queue, False)
+    # return bfs_search(7, [], [], queue, False)
 
     priority_queue = []
-    heapq.heappush(priority_queue, (red_node.get_heuristic(), red_node))
-    return A_star(red_node, 7, [], [], [], priority_queue, False)
+    heapq.heappush(priority_queue, (red_node.get_heuristic(), (red_node, [], False)))
+    return A_star(7, [], [], [], priority_queue, False)
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your
