@@ -4,8 +4,7 @@
 from .core import CellState, Coord, Direction, MoveAction
 from .utils import render_board, find_red
 from .tree import TreeNode, expand_tree, get_goal_nodes
-from .heuristic import calculate_heuristics
-from .uninformed_search import dfs_search, bfs_search, bidirectional_search_multiple_goals
+from .uninformed_search import dfs_search, bfs_search
 from .informed_search import A_star
 import heapq
 from collections import deque
@@ -40,16 +39,20 @@ def search(
     red_node = TreeNode(CellState.RED, red_coord)
     visited = expand_tree(board, [], red_coord, red_node)
     goals = get_goal_nodes(visited)
+    if len(goals) == 0:
+        return None
 
-    calculate_heuristics(red_node, [])
+    # Depth-first Search
 
     # return dfs_search(red_node, [], None, [], False)
 
-    queue = deque()
-    queue.append((red_node, [], False))
+    # Breath-first search
+    # queue = deque()
+    # queue.append((red_node, [], False))
 
     # return bfs_search([], [], queue, False)
 
+    # AStar
     priority_queue = []
     heapq.heappush(priority_queue, ((red_node.get_heuristic(), red_node.isGoal), (red_node, [], False)))
     # return A_star([], [], [], priority_queue, False)
