@@ -4,7 +4,6 @@
 from .core import CellState, Coord, Direction, MoveAction
 from .utils import render_board, find_red
 from .tree import TreeNode, expand_tree, get_goal_nodes
-from .heuristic import calculate_heuristics
 from .uninformed_search import dfs_search, bfs_search
 from .informed_search import A_star
 import heapq
