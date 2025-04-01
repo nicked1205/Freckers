@@ -44,18 +44,20 @@ def search(
 
     # Depth-first Search
 
-    # return dfs_search(red_node, 7, [], None, [], False)
+    # return dfs_search(red_node, [], None, [], False)
 
     # Breath-first search
     # queue = deque()
     # queue.append((red_node, [], False))
 
-    # return bfs_search(7, [], [], queue, False)
+    # return bfs_search([], [], queue, False)
 
     # AStar
     priority_queue = []
-    heapq.heappush(priority_queue, (red_node.get_heuristic(), (red_node, [], False)))
-    return A_star(7, [], [], [], priority_queue, False)
+    heapq.heappush(priority_queue, ((red_node.get_heuristic(), red_node.isGoal), (red_node, [], False)))
+    # return A_star([], [], [], priority_queue, False)
+
+    return bidirectional_search_multiple_goals(red_node, goals)
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your
