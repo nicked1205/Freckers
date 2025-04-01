@@ -40,22 +40,23 @@ def search(
     red_node = TreeNode(CellState.RED, red_coord)
     visited = expand_tree(board, [], red_coord, red_node)
     goals = get_goal_nodes(visited)
+    if len(goals) == 0:
+        return None
 
     # Depth-first Search
-    calculate_heuristics(red_node, [])
 
     # return dfs_search(red_node, 7, [], None, [], False)
 
     # Breath-first search
-    queue = deque()
-    queue.append((red_node, [], False))
+    # queue = deque()
+    # queue.append((red_node, [], False))
 
-    return bfs_search(7, [], [], queue, False)
+    # return bfs_search(7, [], [], queue, False)
 
     # AStar
-    # priority_queue = []
-    # heapq.heappush(priority_queue, (red_node.get_heuristic(), (red_node, [], False)))
-    # return A_star(7, [], [], [], priority_queue, False)
+    priority_queue = []
+    heapq.heappush(priority_queue, (red_node.get_heuristic(), (red_node, [], False)))
+    return A_star(7, [], [], [], priority_queue, False)
 
     # Here we're returning "hardcoded" actions as an example of the expected
     # output format. Of course, you should instead return the result of your

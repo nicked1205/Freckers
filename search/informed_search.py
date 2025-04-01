@@ -24,7 +24,7 @@ def A_star_old(parent: TreeNode, goal_row: int, visited: list, added: list, best
             child = children[direction]
             # Check if child is None, already visited or already in the queue
             if child is not None and child not in visited and child not in added:
-                print(f'Child: {child.coord.r}-{child.coord.c}, Heuristic: {child.get_heuristic()}')
+                print(child)
                 heapq.heappush(pq, (child.get_heuristic(), child)) # push child to queue
                 added.append(child) # mark that child is ADDED TO QUEUE, not visited
                 no_children = False
@@ -84,7 +84,7 @@ def A_star(goal_row: int, visited: list, added: list, best_path: list, pq: list,
             if child in visited or child in added:
                 continue
             
-            print(f"Child: {child.coord.r}-{child.coord.c}, Heuristic: {child.get_heuristic()}")
+            print(child)
             # Create a new path based on whether this move is a jump.
             if child.isJumping(current):
                 print(f"Jump move from {current.coord.r}-{current.coord.c} to {child.coord.r}-{child.coord.c} via {direction}")
