@@ -66,14 +66,14 @@ def A_star_old(parent: TreeNode, goal_row: int, visited: list, added: list, best
     # If no path is found, return None or an appropriate value
     return None
 
-def A_star(goal_row: int, visited: list, added: list, best_path: list, pq: list, jumping: bool):
+def A_star(visited: list, added: list, best_path: list, pq: list, jumping: bool):
     while pq:
         _, (current, best_path, jumping) = heapq.heappop(pq)
         print(f"Current: {current.coord.r}-{current.coord.c}")
         visited.append(current)
         
         # Goal check.
-        if current.coord.r == goal_row:
+        if current.isGoal:
             print("Goal")
             return best_path
         
@@ -109,7 +109,7 @@ def A_star(goal_row: int, visited: list, added: list, best_path: list, pq: list,
                 new_jumping = False
 
             new_state = (child, new_path, new_jumping)
-            heapq.heappush(pq, (child.get_heuristic(), new_state))
+            heapq.heappush(pq, ((child.get_heuristic(), child.isGoal), new_state))
             added.append(child)
     
     # If the search exhausts without finding a goal, return None.
