@@ -68,6 +68,7 @@ def A_star_old(parent: TreeNode, goal_row: int, visited: list, added: list, best
 
 def A_star(visited: list, added: list, best_path: list, pq: list, jumping: bool):
     while pq:
+        print([[_, node.coord] for _, (node, best_path, jumping) in pq])
         _, (current, best_path, jumping) = heapq.heappop(pq)
         print(f"Current: {current.coord.r}-{current.coord.c}")
         visited.append(current)

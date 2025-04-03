@@ -55,7 +55,7 @@ def search(
     # AStar
     priority_queue = []
     heapq.heappush(priority_queue, ((red_node.get_heuristic(), red_node.isGoal), (red_node, [], False)))
-    # return A_star([], [], [], priority_queue, False)
+    return A_star([], [], [], priority_queue, False)
 
     return bidirectional_search_multiple_goals(red_node, goals)
 
