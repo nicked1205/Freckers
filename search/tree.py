@@ -8,17 +8,17 @@ class TreeNode():
         self.coord = coord
         self.child_dict: dict[Direction, TreeNode]
         self.child_dict = {
-                        Direction.Left: None,
-                        Direction.DownLeft: None,
                         Direction.Down: None,
+                        Direction.DownLeft: None,
                         Direction.DownRight: None,
+                        Direction.Left: None,
                         Direction.Right: None,
                         }
         self.parent_dict = {
-                        Direction.Left: None,
-                        Direction.UpLeft: None,
                         Direction.Up: None,
+                        Direction.UpLeft: None,
                         Direction.UpRight: None,
+                        Direction.Left: None,
                         Direction.Right: None,
                         }
         self.isGoal = False
@@ -80,13 +80,13 @@ def expand_tree(board: dict[Coord, CellState], visited: list[TreeNode], coord: C
             
             if cell_state_jump == CellState.LILY_PAD:
                 new_node = TreeNode(cell_state, new_jump_coord)
-                if root.get_heuristic() > (float(BOARD_N) - float(new_jump_coord.r)) / 2:
-                    root.set_heuristic((float(BOARD_N) - float(new_jump_coord.r)) / 2)
+                if new_node not in root.parent_dict.values():
+                    test_jump_heuristic(board, new_jump_coord, root, [root.coord])
                 if new_node not in visited:
                     if (new_jump_coord.r == BOARD_N - 1):
                         new_node.setGoal()
                     root.add_child(dir, new_node)
-                    new_node.add_parent(dir.__neg__(), root)                 
+                    new_node.add_parent(dir.__neg__(), root)               
                     visited = expand_tree(board, visited, new_jump_coord, new_node)
                 else:
                     for node in visited:
@@ -112,6 +112,37 @@ def expand_tree(board: dict[Coord, CellState], visited: list[TreeNode], coord: C
                         node.add_parent(dir.__neg__(), root)
         
     return visited
+
+def test_jump_heuristic(board: dict[Coord, CellState], cur: Coord, root: TreeNode, visited: list[TreeNode]):
+    if cur not in visited:
+        visited.append(cur)
+        end_jump_sequence = True
+        for dir in [Direction.Left, Direction.DownLeft, Direction.Down, Direction.DownRight, Direction.Right]:
+            try:
+                new_coord = Coord(cur.r + dir.r, cur.c + dir.c)
+            except:
+                continue
+            cell_state = board.get(new_coord)
+
+            if cell_state == CellState.BLUE:
+                end_jump_sequence = False
+                try:
+                    new_jump_coord = Coord(cur.r + 2*dir.r, cur.c + 2*dir.c)
+                except:
+                    continue
+                cell_state_jump = board.get(new_jump_coord)
+
+                if cell_state_jump == CellState.LILY_PAD:
+                    test_jump_heuristic(board, new_jump_coord, root, visited)
+        if end_jump_sequence:
+            print(root)
+            print(cur)
+            print((float(BOARD_N) - float(cur.r)) / 2)
+            if root.get_heuristic() > (float(BOARD_N) - float(cur.r)) / 2:
+                    root.set_heuristic((float(BOARD_N) - float(cur.r)) / 2)
+                    if (cur.r == BOARD_N - 1):
+                        root.set_heuristic(0)
+
     
 def get_goal_nodes(visited: list[TreeNode]):
     goal_nodes = []
