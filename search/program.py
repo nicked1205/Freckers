@@ -4,7 +4,7 @@
 from .core import CellState, Coord, Direction, MoveAction
 from .utils import render_board, find_red
 from .tree import TreeNode, expand_tree, get_goal_nodes
-from .uninformed_search import dfs_search, bfs_search
+from .uninformed_search import dfs_search, bfs_search, bidirectional_search_multiple_goals
 from .informed_search import A_star
 import heapq
 from collections import deque
@@ -46,7 +46,7 @@ def search(
 
     # return dfs_search(red_node, [], None, [], False)
 
-    # Breath-first search
+    # Breadth-first search
     # queue = deque()
     # queue.append((red_node, [], False))
 

@@ -7,10 +7,8 @@ from dataclasses import replace
 def dfs_search(root: TreeNode, visited: list, best_path: list, path: list, jumping: bool) -> list:
     # Base case: if this node's row is the goal row, we've reached the target.
     if root.isGoal:
-        #print(f"GOAL-{len(path)}")
         return path.copy()  # return a copy of the current path
 
-    # print(f'Node: {root.coord}')
     # Mark the current node as visited.
     visited.append(root.coord)
 
@@ -22,8 +20,6 @@ def dfs_search(root: TreeNode, visited: list, best_path: list, path: list, jumpi
 
         # Proceed only if there is a child and we haven't visited it before.
         if child is not None and child.coord not in visited:
-            # print(f'Root: {root.coord}')
-            # print(f'{direction} child')
             added = False  # flag to check if we've appended an action
 
             # Check if there is any jump moves
@@ -110,12 +106,10 @@ def bfs_search(visited: list, added: list, queue: deque, jumping: bool) -> list:
 
 def combine_paths(forward_path: tuple[list[MoveAction], bool], backward_path: tuple[list[MoveAction], bool]):
     """
-    Combine the forward path and the backward path (which is reversed and inverted)
+    Combine the forward path and the backward path
     to form the complete solution path.
     Assumes the meeting node is the last node in forward_path and the first in backward_path.
     """
-    print(forward_path)
-    print(backward_path)
 
     # Resolve multiple jumps issue in the last move of each path
     if forward_path[1] and backward_path[1]:
@@ -157,7 +151,7 @@ def bidirectional_search(start: TreeNode, goal: TreeNode):
     backward_paths = {id(goal): []}
     
     while forward_queue and backward_queue:
-        # --- Expand forward search ---
+        # --- Expand forward search (similar to normal bfs) ---
         if forward_queue:
             current, path, jumping = forward_queue.popleft()
             print(f"Forward Current: {current.coord.r}-{current.coord.c}")
@@ -190,7 +184,7 @@ def bidirectional_search(start: TreeNode, goal: TreeNode):
                     forward_queue.append((child, new_path, new_jumping))
                     forward_paths[id(child)] = (new_path, new_jumping)
         
-        # --- Expand backward search ---
+        # --- Expand backward search (still bfs but with some modifications) ---
         if backward_queue:
             current, path, jumping = backward_queue.popleft()
             print(f"Backward Current: {current.coord.r}-{current.coord.c}")
@@ -210,14 +204,16 @@ def bidirectional_search(start: TreeNode, goal: TreeNode):
                         if jumping and new_path:
                             print("Backward MULTIPLE JUMP")
                             new_path[-1]._directions.append(direction.__neg__())
-                            # Create a new instance with the updated coordinate.
+                            # Update the coordinate to the parent node's since we jumped backwards
                             new_action = replace(new_path[-1], coord=parent.coord)
                             new_path[-1] = new_action
                         else:
+                            # Since we are moving backwards, the move-action coordinate is the parent's
                             action = MoveAction(parent.coord, [direction.__neg__()])
                             new_path.append(action)
                         new_jumping = True
                     else:
+                        # Same here
                         action = MoveAction(parent.coord, [direction.__neg__()])
                         new_path.append(action)
                         new_jumping = False
@@ -229,6 +225,7 @@ def bidirectional_search(start: TreeNode, goal: TreeNode):
 
 def bidirectional_search_multiple_goals(start: TreeNode, goal_list: list[TreeNode]):
     best_solution = None
+    # Do bidirectional search on every goal 
     for goal in goal_list:
         solution = bidirectional_search(start, goal)
         if best_solution is None or len(solution) < len(best_solution):
