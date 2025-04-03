@@ -46,7 +46,7 @@ def search(
 
     # return dfs_search(red_node, [], None, [], False)
 
-    # Breath-first search
+    # Breadth-first search
     # queue = deque()
     # queue.append((red_node, [], False))
 
