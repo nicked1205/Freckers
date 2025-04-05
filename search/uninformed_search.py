@@ -7,12 +7,16 @@ from dataclasses import replace
 def dfs_search(root: TreeNode, visited: list, best_path: list, path: list, jumping: bool) -> list:
     # Base case: if this node's row is the goal row, we've reached the target.
     if root.isGoal:
+        print("Goal reached")
         return path.copy()  # return a copy of the current path
 
     # Mark the current node as visited.
     visited.append(root.coord)
 
     children = root.child_dict
+
+    print(f"Current: {root.coord.r}-{root.coord.c}")
+
 
     # Iterate over all children in the node's child dictionary.
     for direction in children:
@@ -24,10 +28,10 @@ def dfs_search(root: TreeNode, visited: list, best_path: list, path: list, jumpi
 
             # Check if there is any jump moves
             if child.isJumping(root):
-                # print(f"Node: ({child.coord.r}, {child.coord.c}) JUMP")
+                print("Jump")
                 # Mutiple jump moves found
                 if jumping:
-                    # print("MULTIPLE JUMP")
+                    print("MULTIPLE JUMP")
                     path[-1]._directions.append(direction) # Make sure consecutive jumps are combined into 1 move action
                     # Recurse on the child.
                     solution = dfs_search(child, visited, best_path, path, True)
@@ -125,17 +129,6 @@ def combine_paths(forward_path: tuple[list[MoveAction], bool], backward_path: tu
     return solution
 
 def bidirectional_search(start: TreeNode, goal: TreeNode):
-    """
-    Performs a bidirectional search from the start node to the goal node.
-    Both searches respect the jump move rules defined in your original bfs_search.
-    
-    Parameters:
-      start: the starting node.
-      goal: the target node.
-      
-    Returns:
-      A list of MoveActions forming the path from start to goal, or None if no path is found.
-    """
     # Quick check if start is already the goal.
     if start == goal:
         return []

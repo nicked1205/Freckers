@@ -43,19 +43,17 @@ def search(
         return None
 
     # Depth-first Search
-
     # return dfs_search(red_node, [], None, [], False)
 
     # Breadth-first search
     # queue = deque()
     # queue.append((red_node, [], False))
-
     # return bfs_search([], [], queue, False)
 
     # AStar
-    priority_queue = []
-    heapq.heappush(priority_queue, ((red_node.get_heuristic(), red_node.isGoal), (red_node, [], False)))
-    return A_star([], [], [], priority_queue, False)
+    # priority_queue = []
+    # heapq.heappush(priority_queue, ((red_node.get_heuristic(), red_node.isGoal), (red_node, [], False)))
+    # return A_star([], [], [], priority_queue, False)
 
     return bidirectional_search_multiple_goals(red_node, goals)
 
