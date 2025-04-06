@@ -62,6 +62,7 @@ def render_board(
         output += "\n"
     return output
 
+# Finds the coordinate of the RED Frog on the board.
 def find_red (board: dict[Coord, CellState]):
     for r in range(BOARD_N):
         for c in range(BOARD_N):
